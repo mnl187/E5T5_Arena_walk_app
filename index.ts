@@ -12,5 +12,10 @@ app.use(urlencoded({
 app.use(eStatic('public'));
 app.engine('.hbs', engine({
     extname: '.hbs',
-    //helpers??
-}))
+    //helpers: ??
+}));
+app.set('view engine', '.hbs');
+
+app.get('/', (req, res) => {
+    res.send('Hello!');
+});
