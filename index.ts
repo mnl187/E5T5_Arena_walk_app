@@ -1,4 +1,5 @@
 import express = require("express");
+import 'express-async-errors';
 import methodOverride = require("method-override");
 import {static as eStatic, urlencoded} from "express";
 import {engine} from "express-handlebars";
@@ -19,3 +20,9 @@ app.set('view engine', '.hbs');
 app.get('/', (req, res) => {
     res.send('Hello!');
 });
+
+// app.use(handleError);
+
+app.listen(3000, 'localhost', () => {
+console.log('Listening on http://localhost:3000');
+})
