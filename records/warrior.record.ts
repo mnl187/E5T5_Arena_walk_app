@@ -18,7 +18,11 @@ export class WarriorRecord {
         const sum = [stamina, defence, power, agility].reduce((prev, curr) => prev + curr, 0)
 
         if (sum != 10) {
-            throw new ValidationError(`Suma wszystkich statystyk musz wynosic 10. Aktualnie jest to ${sum}.`)
+            throw new ValidationError(`Suma wszystkich statystyk musi wynosic 10. Aktualnie jest to ${sum}.`)
+        }
+
+        if (name.length < 3 && name.length > 50) {
+            throw new ValidationError(`Imię musi posiadać od 3 do 50 znaków. Aktualnie jest to ${name.length}.`)
         }
     }
 }
