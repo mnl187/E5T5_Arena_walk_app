@@ -1,3 +1,5 @@
+import {ValidationError} from "../utils/error";
+
 export class WarriorRecord {
     public id?: string;
     /**
@@ -10,4 +12,13 @@ export class WarriorRecord {
     public readonly agility: number;
     public wins?: number;
 
+    constructor(obj: WarriorRecord) {
+        const{id, stamina, defence, name, power, agility, wins} = obj;
+
+        const sum = [stamina, defence, power, agility].reduce((prev, curr) => prev + curr, 0)
+
+        if (sum != 10) {
+            throw new ValidationError(`Suma wszystkich statystyk musz wynosic 10. Aktualnie jest to ${sum}.`)
+        }
+    }
 }
