@@ -24,5 +24,33 @@ export class WarriorRecord {
         if (name.length < 3 && name.length > 50) {
             throw new ValidationError(`Imię musi posiadać od 3 do 50 znaków. Aktualnie jest to ${name.length}.`)
         }
+
+        this.id = id;
+        this.defence = defence;
+        this.agility = agility;
+        this.name = name;
+        this.power = power;
+        this.stamina = stamina;
+        this.wins = wins;
+    };
+
+    async insert() {
+
+    }
+
+    async update() {
+
+    }
+
+    static async getOne(id: string) {
+
+    }
+
+    static async listAll(id: string) {
+
+    }
+
+    static async listTop(topCount: number) {
+
     }
 }
