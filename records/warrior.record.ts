@@ -1,5 +1,6 @@
 import {ValidationError} from "../utils/error";
 import {v4 as uuid} from 'uuid';
+import {pool} from "../utils/db";
 
 export class WarriorRecord {
     public id?: string;
@@ -39,8 +40,20 @@ export class WarriorRecord {
         if (this.id) {
             this.id = uuid();
         }
+        if (typeof this.wins !== "number") {
+            this.wins = 0;
+        }
 
-        "INSERT INTO "
+        pool.execute("INSERT INTO `warriors`(`id`, `name`, `power`, `defence`, `stamina`, `agility`, `wins`) VALUES (:id, :name, :power, :defence, :stamina, :agility, :wins)", {
+            id: this.id,
+            name: this.name,
+            power: this.power,
+            defence: this.defence,
+            stamina: this.stamina,
+            agility: this.agility,
+            wins: this.wins,
+        })
+
     }
 
     async update(): Promise<void> {
