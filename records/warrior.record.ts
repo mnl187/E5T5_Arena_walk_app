@@ -1,4 +1,5 @@
 import {ValidationError} from "../utils/error";
+import {v4 as uuid} from 'uuid';
 
 export class WarriorRecord {
     public id?: string;
@@ -13,7 +14,7 @@ export class WarriorRecord {
     public wins?: number;
 
     constructor(obj: WarriorRecord) {
-        const{id, stamina, defence, name, power, agility, wins} = obj;
+        const {id, stamina, defence, name, power, agility, wins} = obj;
 
         const sum = [stamina, defence, power, agility].reduce((prev, curr) => prev + curr, 0)
 
@@ -35,7 +36,11 @@ export class WarriorRecord {
     };
 
     async insert(): Promise<string> {
+        if (this.id) {
+            this.id = uuid();
+        }
 
+        "INSERT INTO "
     }
 
     async update(): Promise<void> {
