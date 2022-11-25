@@ -2,7 +2,17 @@ import {ValidationError} from "../utils/error";
 import {v4 as uuid} from 'uuid';
 import {pool} from "../utils/db";
 
-export class WarriorRecord {
+export interface WarriorEntity {
+    id?: string;
+    readonly name: string;
+    readonly power: number;
+    readonly defence: number;
+    readonly stamina: number;
+    readonly agility: number;
+    wins?: number;
+}
+
+export class WarriorRecord implements WarriorEntity {
     public id?: string;
     /**
      * Name is always unique  (pokaże się podpowiedziach dot. składni, np. w index.ts)
@@ -14,7 +24,7 @@ export class WarriorRecord {
     public readonly agility: number;
     public wins?: number;
 
-    constructor(obj: WarriorRecord) {
+    constructor(obj: Omit<WarriorRecord, 'insert', | 'update'>) {
         const {id, stamina, defence, name, power, agility, wins} = obj;
 
         const sum = [stamina, defence, power, agility].reduce((prev, curr) => prev + curr, 0)
@@ -27,24 +37,18 @@ export class WarriorRecord {
             throw new ValidationError(`Imię musi posiadać od 3 do 50 znaków. Aktualnie jest to ${name.length}.`)
         }
 
-        this.id = id;
+        this.id = id ?? uuid();
+        this.wins = wins ?? 0;
         this.defence = defence;
         this.agility = agility;
         this.name = name;
         this.power = power;
         this.stamina = stamina;
-        this.wins = wins;
     };
 
     async insert(): Promise<string> {
-        if (this.id) {
-            this.id = uuid();
-        }
-        if (typeof this.wins !== "number") {
-            this.wins = 0;
-        }
 
-        pool.execute("INSERT INTO `warriors`(`id`, `name`, `power`, `defence`, `stamina`, `agility`, `wins`) VALUES (:id, :name, :power, :defence, :stamina, :agility, :wins)", {
+        await pool.execute("INSERT INTO `warriors`(`id`, `name`, `power`, `defence`, `stamina`, `agility`, `wins`) VALUES (:id, :name, :power, :defence, :stamina, :agility, :wins)", {
             id: this.id,
             name: this.name,
             power: this.power,
@@ -52,7 +56,8 @@ export class WarriorRecord {
             stamina: this.stamina,
             agility: this.agility,
             wins: this.wins,
-        })
+        });
+        return this.id;
 
     }
 
@@ -61,14 +66,14 @@ export class WarriorRecord {
     }
 
     static async getOne(id: string): Promise<WarriorRecord | null> {
-
+        return null
     }
 
     static async listAll(id: string): Promise<WarriorRecord[]> {
-
+        return [];
     }
 
     static async listTop(topCount: number): Promise<WarriorRecord[]> {
-
+        return [];
     }
 }
