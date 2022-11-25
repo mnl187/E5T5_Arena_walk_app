@@ -27,7 +27,15 @@ export class WarriorRecord implements WarriorEntity {
     constructor(obj: Omit<WarriorRecord, 'insert', | 'update'>) {
         const {id, stamina, defence, name, power, agility, wins} = obj;
 
-        const sum = [stamina, defence, power, agility].reduce((prev, curr) => prev + curr, 0)
+        const stats = [stamina, defence, power, agility];
+
+        const sum = stats.reduce((prev, curr) => prev + curr, 0)
+
+        for (const stat of stats) {
+            if (stat < 1) {
+                throw new ValidationError('Każda ze statystyk musi wynosic min. 1. Ta zasada została złamana.');
+            }
+        }
 
         if (sum != 10) {
             throw new ValidationError(`Suma wszystkich statystyk musi wynosic 10. Aktualnie jest to ${sum}.`)
