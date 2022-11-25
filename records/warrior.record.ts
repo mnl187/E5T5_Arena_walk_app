@@ -3,6 +3,8 @@ import {v4 as uuid} from 'uuid';
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 
+type WarriorRecordResults = [[WarriorRecord[]], FieldPacket[]];
+
 export interface WarriorEntity {
     id?: string;
     readonly name: string;
@@ -77,9 +79,11 @@ export class WarriorRecord implements WarriorEntity {
     }
 
     static async getOne(id: string): Promise<WarriorRecord | null> {
-        await pool.execute("SELECT * FROM `warrior` WHERE `id` = :id", {
+        const [results] = await pool.execute("SELECT * FROM `warrior` WHERE `id` = :id", {
             id: id,
-        }) as [[WarriorRecord], FieldPacket[]]
+        }) as WarriorRecordResults;
+
+        return results.length === 0 ? null : results[0];
     }
 
     static async listAll(id: string): Promise<WarriorRecord[]> {
