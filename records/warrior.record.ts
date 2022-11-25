@@ -24,7 +24,7 @@ export class WarriorRecord implements WarriorEntity {
     public readonly agility: number;
     public wins?: number;
 
-    constructor(obj: Omit<WarriorRecord, 'insert', | 'update'>) {
+    constructor(obj: Omit<WarriorRecord, 'insert' | 'update'>) {
         const {id, stamina, defence, name, power, agility, wins} = obj;
 
         const stats = [stamina, defence, power, agility];
@@ -70,7 +70,9 @@ export class WarriorRecord implements WarriorEntity {
     }
 
     async update(): Promise<void> {
-
+        await pool.execute("UPDATE `warriors` SET `wins` = :wins", {
+            wins: this.wins,
+        });
     }
 
     static async getOne(id: string): Promise<WarriorRecord | null> {
