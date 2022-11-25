@@ -30,7 +30,13 @@ app.use('/hall-of-fame', hallOfFameRouter);
 // app.use(handleError);
 
 (async () => {
-    const w = new WarriorRecord({});
+    const w = new WarriorRecord({
+        name: 'x',
+        agility: 10,
+        power: 0,
+        defence: 0,
+        stamina: 0,
+    });
 
 })
 app.listen(3000, 'localhost', () => {
