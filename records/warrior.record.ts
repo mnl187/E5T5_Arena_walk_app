@@ -1,6 +1,7 @@
 import {ValidationError} from "../utils/error";
 import {v4 as uuid} from 'uuid';
 import {pool} from "../utils/db";
+import {FieldPacket} from "mysql2";
 
 export interface WarriorEntity {
     id?: string;
@@ -76,7 +77,9 @@ export class WarriorRecord implements WarriorEntity {
     }
 
     static async getOne(id: string): Promise<WarriorRecord | null> {
-        return null
+        await pool.execute("SELECT * FROM `warrior` WHERE `id` = :id", {
+            id: id,
+        }) as [[WarriorRecord], FieldPacket[]]
     }
 
     static async listAll(id: string): Promise<WarriorRecord[]> {
