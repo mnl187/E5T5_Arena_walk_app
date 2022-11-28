@@ -5,17 +5,17 @@ import {FieldPacket} from "mysql2";
 
 type WarriorRecordResults = [[WarriorRecord[]], FieldPacket[]];
 
-export interface WarriorEntity {
-    id?: string;
-    readonly name: string;
-    readonly power: number;
-    readonly defence: number;
-    readonly stamina: number;
-    readonly agility: number;
-    wins?: number;
-}
+// export interface WarriorEntity {
+//     id?: string;
+//     readonly name: string;
+//     readonly power: number;
+//     readonly defence: number;
+//     readonly stamina: number;
+//     readonly agility: number;
+//     wins?: number;
+// } implements WarriorEntity
 
-export class WarriorRecord implements WarriorEntity {
+export class WarriorRecord {
     public id?: string;
     /**
      * Name is always unique  (pokaże się podpowiedziach dot. składni, np. w index.ts)
@@ -28,7 +28,7 @@ export class WarriorRecord implements WarriorEntity {
     public wins?: number;
 
     constructor(obj: Omit<WarriorRecord, 'insert' | 'update'>) {
-        const {id, stamina, defence, name, power, agility, wins} = obj;
+        const {id, name, stamina, defence, power, agility, wins} = obj;
 
         const stats = [stamina, defence, power, agility];
 
@@ -80,7 +80,7 @@ export class WarriorRecord implements WarriorEntity {
 
     static async getOne(id: string): Promise<WarriorRecord[]> {
         const [results] = await pool.execute("SELECT * FROM `warrior` WHERE `id` = :id", {
-            id: id,
+            id,
         }) as WarriorRecordResults;
 
         // @ts-ignore
@@ -94,10 +94,18 @@ export class WarriorRecord implements WarriorEntity {
     }
 
     static async listTop(topCount: number): Promise<WarriorRecord[]> {
-        const [results] = await pool.execute("SELECT * FROM `warrior` WHERE ORDER BY `wins` DESC LIMIT :topCount", {
+        const [results] = await pool.execute("SELECT * FROM `warrior` ORDER BY `wins` DESC LIMIT :topCount", {
             topCount,
         }) as WarriorRecordResults;
 
         return results.map(obj => new WarriorRecord(obj));
+    }
+
+    static async isNameTaken(name: string): Promise<boolean> {
+        const [results] = await pool.execute("SELECT * FROM `warrior` where `name` = :name", {
+            name,
+        }) as WarriorRecordResults;
+
+        return results.length === 0 ? null : results[0];
     }
 }
