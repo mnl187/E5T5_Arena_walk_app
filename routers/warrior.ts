@@ -1,5 +1,6 @@
 import {Router} from "express";
 import {WarriorRecord} from "../records/warrior.record";
+import {ValidationError} from "../utils/error";
 
 export const warriorRouter = Router();
 
@@ -9,6 +10,9 @@ warriorRouter
         res.render('warrior/add-form');
     })
     .post('/', async (req, res) => {
+        if (await WarriorRecord.isNameTaken(req.body.name)) {
+            throw new ValidationError(`To imię jest już zajęte. Wybierz inne.`);
+        }
         const warrior = new WarriorRecord({
             ...req.body,
             power: Number(req.body.power),
