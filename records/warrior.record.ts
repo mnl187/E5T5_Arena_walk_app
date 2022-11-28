@@ -106,6 +106,6 @@ export class WarriorRecord {
             name,
         }) as WarriorRecordResults;
 
-        return results.length === 0 ? null : results[0];
+        return results.length > 0;
     }
 }
