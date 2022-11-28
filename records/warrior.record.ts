@@ -78,11 +78,12 @@ export class WarriorRecord implements WarriorEntity {
         });
     }
 
-    static async getOne(id: string): Promise<WarriorRecord | null> {
+    static async getOne(id: string): Promise<WarriorRecord[]> {
         const [results] = await pool.execute("SELECT * FROM `warrior` WHERE `id` = :id", {
             id: id,
         }) as WarriorRecordResults;
 
+        // @ts-ignore
         return results.length === 0 ? null : results[0];
     }
 
