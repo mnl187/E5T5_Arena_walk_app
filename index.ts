@@ -27,7 +27,8 @@ app.use('/', homeRouter);
 app.use('/warrior', warriorRouter);
 app.use('/arena', arenaRouter);
 app.use('/hall-of-fame', hallOfFameRouter);
-// app.use(handleError);
+
+app.use(handleError);
 
 (async () => {
     const w = new WarriorRecord({
