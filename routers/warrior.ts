@@ -10,15 +10,16 @@ warriorRouter
         res.render('warrior/add-form');
     })
     .post('/', async (req, res) => {
-        if (await WarriorRecord.isNameTaken(req.body.name)) {
+        const {agility, power, defence, stamina, name} = req.body;
+        if (await WarriorRecord.isNameTaken(name)) {
             throw new ValidationError(`To imię jest już zajęte. Wybierz inne.`);
         }
         const warrior = new WarriorRecord({
             ...req.body,
-            power: Number(req.body.power),
-            defence: Number(req.body.defence),
-            stamina: Number(req.body.stamina),
-            agility: Number(req.body.agility),
+            power: Number(power),
+            defence: Number(defence),
+            stamina: Number(stamina),
+            agility: Number(agility),
         });
 
         const id = await warrior.insert();
