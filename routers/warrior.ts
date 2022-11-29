@@ -20,6 +20,10 @@ warriorRouter
             stamina: Number(req.body.stamina),
             agility: Number(req.body.agility),
         });
-        await warrior.insert();
-        res.render('warrior/warrior-added')
+
+        const id = await warrior.insert();
+        res.render('warrior/warrior-added', {
+            id,
+            name: warrior.name,
+        })
     })

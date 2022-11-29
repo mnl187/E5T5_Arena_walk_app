@@ -9,6 +9,7 @@ import {arenaRouter} from "./routers/arena";
 import {hallOfFameRouter} from "./routers/hall-of-fame";
 import './utils/db'
 import {WarriorRecord} from "./records/warrior.record";
+import {handleError} from "./utils/error";
 
 const app = express();
 
