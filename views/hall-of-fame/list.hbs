@@ -10,9 +10,15 @@
     <tbody>
     {{#each warriors}}
         <tr>
-            <th>1</th>
-            <td>8</td>
-            <td>sasdasd</td>
+            <th>
+                {{@index}}
+            </th>
+            <td>
+                {{this.wins}}
+            </td>
+            <td>
+                {{this.name}}
+            </td>
         </tr>
     {{/each}}
 </table>

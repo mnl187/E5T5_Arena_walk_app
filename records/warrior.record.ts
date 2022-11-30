@@ -44,7 +44,7 @@ export class WarriorRecord {
             throw new ValidationError(`Suma wszystkich statystyk musi wynosic 10. Aktualnie jest to ${sum}.`)
         }
 
-        if (name.length < 3 && name.length > 50) {
+        if (name.length < 3 || name.length > 50) {
             throw new ValidationError(`Imię musi posiadać od 3 do 50 znaków. Aktualnie jest to ${name.length}.`)
         }
 
