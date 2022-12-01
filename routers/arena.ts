@@ -1,5 +1,6 @@
 import {Router} from "express";
 import {WarriorRecord} from "../records/warrior.record";
+import {ValidationError} from "../utils/error";
 
 export const arenaRouter = Router();
 
@@ -11,6 +12,12 @@ arenaRouter
             warriors,
         });
     })
-    .post('/fight', (req, res) => {
+    .post('/fight', async (req, res) => {
+        const {warrior1: warrior1Id, warrior2: warrior2Id} = req.body;
+
+        if (warrior1Id === warrior2Id) {
+            throw new ValidationError(`Proszę wybrać 2 różnych przeciwników.`)
+        }
+
         res.render('arena/fight')
     }); // POST/arena/fight
