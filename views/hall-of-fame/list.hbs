@@ -11,13 +11,13 @@
     {{#each warriors}}
         <tr>
             <th>
-                {{@index}}
+                {{this.place}}
             </th>
             <td>
-                {{this.wins}}
+                {{this.warrior.wins}}
             </td>
             <td>
-                {{this.name}}
+                {{this.warrior.name}}
             </td>
         </tr>
     {{/each}}
