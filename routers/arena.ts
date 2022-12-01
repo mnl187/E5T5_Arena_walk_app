@@ -21,5 +21,12 @@ arenaRouter
 
         const warrior1 = await WarriorRecord.getOne(warrior1Id);
         const warrior2 = await WarriorRecord.getOne(warrior2Id);
+
+        if (!warrior1) {
+            throw new ValidationError(`Nie znaleziono przeciwnika nr1.`);
+        }
+        if (!warrior2) {
+            throw new ValidationError(`Nie znaleziono przeciwnika nr2.`);
+        }
         res.render('arena/fight')
     }); // POST/arena/fight
