@@ -19,5 +19,7 @@ arenaRouter
             throw new ValidationError(`Proszę wybrać 2 różnych przeciwników.`)
         }
 
+        const warrior1 = await WarriorRecord.getOne(warrior1Id);
+        const warrior2 = await WarriorRecord.getOne(warrior2Id);
         res.render('arena/fight')
     }); // POST/arena/fight
